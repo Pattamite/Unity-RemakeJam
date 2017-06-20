@@ -17,6 +17,7 @@ public class Cactus : MonoBehaviour
     public float randomSpeedRange = 0.1f;
     public float randomTime = 1.5f;
     public int maxHealth = 5;
+    public int healAmount = 2;
     [Range(0f, 4.5f)]  public float upperHorizontalcalLimit = 4.5f;
     [Range(-4.5f, 0f)] public float lowerHorizontalLimit = -4.5f;
 
@@ -77,6 +78,15 @@ public class Cactus : MonoBehaviour
         }
     }
 
+    public void Heal()
+    {
+        currentHealth = currentHealth + healAmount;
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+    }
+
     public void Kill()
     {
         Destroy(this.gameObject);
@@ -131,6 +141,15 @@ public class Cactus : MonoBehaviour
                 GetHit();
             }
             print(id + " hit by raindrop / HP = " + currentHealth);
+        }
+        else if(otherObject.GetComponent<Fert>())
+        {
+            otherObject.GetComponent<Fert>().Kill();
+            if (status == STATUS_NORMAL || status == STATUS_INVINCIBLE)
+            {
+                Heal();
+            }
+            print(id + "said cactus never died / HP = " + currentHealth);
         }
         else if(otherObject.layer == 9) movementDirection *= -1f;
     }
