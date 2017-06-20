@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class Cactus : MonoBehaviour
 {
+    public static int STATUS_SPAWNING = 1;
     public static int STATUS_NORMAL = 0;
     public static int STATUS_INVINCIBLE = -1;
     public static int STATUS_DEAD = -2;
 
-    public float cooldown = 6f;
+    public float cooldownAfterHit = 1f;
     public float fallSpeed = 2.5f;
     public float riseSpeed = 0.3f;
     public float maxSpeed = 2f;
@@ -27,26 +28,34 @@ public class Cactus : MonoBehaviour
     private int status;
     public float movementDirection;
     private float randomValue;
-    private float spawnTime;
+    private float lastHitTime;
+
+    public Color normalColor;
+    public Color blinkColor;
+    private bool isBlink = false;
+    private float lastBlinkTime;
+    [Range(0.1f, 1f)] public float blinkDelay = 0.2f;
 
     void Start()
     {
-        currentSpeed = startSpeed;
-        status = STATUS_INVINCIBLE;
-        movementDirection = 1f;
-        currentHealth = maxHealth;
-        spawnTime = Time.time;
-
+        SetupVar();
         StartCoroutine(UpdateSpeed());
     }
 
     void Update()
     {
         Movement();
-        if (Time.time - spawnTime >= cooldown && status != STATUS_NORMAL)
-        {
-            status = STATUS_NORMAL;
-        }
+        StatusChecking();
+    }
+
+    private void SetupVar()
+    {
+        currentSpeed = startSpeed;
+        status = STATUS_SPAWNING;
+        movementDirection = 1f;
+        currentHealth = maxHealth;
+        lastHitTime = Time.time;
+        lastBlinkTime = Time.time;
     }
 
     private void Movement()
@@ -57,6 +66,11 @@ public class Cactus : MonoBehaviour
         }
         else
         {
+            if (status == STATUS_SPAWNING)
+            {
+                status = STATUS_NORMAL;
+                StopBlinking();
+            }
             if (transform.position.y < MainGameTracker.FLOOR_LEVEL - riseSpeed)
             {
                 transform.position += Vector3.up * riseSpeed * Time.deltaTime * MainGameTracker.GAME_SPEED;
@@ -66,14 +80,38 @@ public class Cactus : MonoBehaviour
 
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, lowerHorizontalLimit, upperHorizontalcalLimit),
             transform.position.y, transform.position.z);
+
+        if (transform.position.x == lowerHorizontalLimit) movementDirection = 1f;
+        if (transform.position.x == upperHorizontalcalLimit) movementDirection = -1f;
+    }
+
+    private void StatusChecking()
+    {
+        if(status == STATUS_SPAWNING || status == STATUS_INVINCIBLE)
+        {
+            Blinking();
+        }
+        if(status == STATUS_INVINCIBLE)
+        {
+            if(Time.time - lastHitTime >= cooldownAfterHit / MainGameTracker.GAME_SPEED)
+            {
+                status = STATUS_NORMAL;
+                StopBlinking();
+            }
+        }
     }
 
     public void GetHit()
     {
         currentHealth--;
-        if(currentHealth <= 0)
+        if (currentHealth <= 0)
         {
             Kill();
+        }
+        else
+        {
+            status = STATUS_INVINCIBLE;
+            lastHitTime = Time.time;
         }
     }
 
@@ -147,6 +185,30 @@ public class Cactus : MonoBehaviour
                 movementDirection = otherCactus.movementDirection * -1f;
             }
         }
+    }
+
+    void Blinking()
+    {
+        if(Time.time - lastBlinkTime >= blinkDelay / MainGameTracker.GAME_SPEED)
+        {
+            lastBlinkTime = Time.time;
+            if(isBlink)
+            {
+                this.GetComponentInChildren<SpriteRenderer>().color = normalColor;
+                isBlink = false;
+            }
+            else
+            {
+                this.GetComponentInChildren<SpriteRenderer>().color = blinkColor;
+                isBlink = true;
+            }
+        }
+    }
+
+    void StopBlinking()
+    {
+        this.GetComponentInChildren<SpriteRenderer>().color = normalColor;
+        isBlink = false;
     }
 
     IEnumerator UpdateSpeed()
