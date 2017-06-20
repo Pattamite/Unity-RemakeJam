@@ -8,12 +8,15 @@ public class Cactus : MonoBehaviour
     public static int STATUS_INVINCIBLE = -1;
     public static int STATUS_DEAD = -2;
 
-    public static float MAX_SPEED = 2f;
-    public static float MIN_SPEED = 0.1f;
-    public static float START_SPEED = 0.5f;
-    public static float RANDOM_RANGE = 0.1f;
-    public static float RANDOM_TIME = 1.5f;
+    public float maxSpeed = 2f;
+    public float minSpeed = 0.1f;
+    public float startSpeed = 0.5f;
+    public float randomSpeedRange = 0.1f;
+    public float randomTime = 1.5f;
+    public int maxHealth = 5;
+
     public int id = 0;
+    public int currentHealth;
 
     public float currentSpeed;
     private int status;
@@ -22,9 +25,10 @@ public class Cactus : MonoBehaviour
 
     void Start()
     {
-        currentSpeed = START_SPEED;
+        currentSpeed = startSpeed;
         status = STATUS_NORMAL;
         movementDirection = 1f;
+        currentHealth = maxHealth;
 
         StartCoroutine(UpdateSpeed());
     }
@@ -37,6 +41,15 @@ public class Cactus : MonoBehaviour
     private void Movement()
     {
         transform.position += Vector3.right * currentSpeed * Time.deltaTime * MainGameTracker.GAME_SPEED * movementDirection;
+    }
+
+    public void GetHit()
+    {
+        currentHealth--;
+        if(currentHealth <= 0)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collide)
@@ -80,20 +93,22 @@ public class Cactus : MonoBehaviour
                 }
             }
         }
-        else if (otherObject.GetComponent<Raindrop>())
+        else if(otherObject.GetComponent<Raindrop>())
         {
-            print(id + " hit by raindrop");
+            otherObject.GetComponent<Raindrop>().Kill();
+            GetHit();
+            print(id + " hit by raindrop / HP = " + currentHealth);
         }
-        else movementDirection *= -1f;
+        else if(otherObject.layer == 9) movementDirection *= -1f;
     }   
 
     IEnumerator UpdateSpeed()
     {
         while(true)
         {
-            currentSpeed += Random.Range(-RANDOM_RANGE, RANDOM_RANGE);
-            currentSpeed = Mathf.Clamp(currentSpeed, MIN_SPEED, MAX_SPEED);
-            yield return new WaitForSeconds(RANDOM_TIME * MainGameTracker.GAME_SPEED);
+            currentSpeed += Random.Range(-randomSpeedRange, randomSpeedRange);
+            currentSpeed = Mathf.Clamp(currentSpeed, minSpeed, maxSpeed);
+            yield return new WaitForSeconds(randomTime * MainGameTracker.GAME_SPEED);
         }
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Raindrop : MonoBehaviour
 {
 
-    public static float DROP_SPEED = 0.8f;
+    public float dropSpeed = 0.8f;
 
 
     void Start()
@@ -16,7 +16,12 @@ public class Raindrop : MonoBehaviour
 
     void Update()
     {
-        transform.position += Vector3.down * DROP_SPEED * Time.deltaTime * MainGameTracker.GAME_SPEED;
+        transform.position += Vector3.down * dropSpeed * Time.deltaTime * MainGameTracker.GAME_SPEED;
+    }
+
+    public void Kill()
+    {
+        Destroy(this.gameObject);
     }
 
     void OnTriggerEnter2D(Collider2D collide)
@@ -24,7 +29,11 @@ public class Raindrop : MonoBehaviour
         GameObject otherObject = collide.gameObject;
         if(otherObject.layer == 8)
         {
-            Destroy(this.gameObject);
+            Kill();
+        }
+        else if(otherObject.GetComponent<Umbrella>())
+        {
+            Kill();
         }
     }
 }
