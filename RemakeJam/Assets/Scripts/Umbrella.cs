@@ -51,8 +51,8 @@ public class Umbrella : MonoBehaviour {
             currentVerticalDirection *= sqrtHalf;
         }
 
-        transform.position += Vector3.right * speed * Time.deltaTime * currentHorizontalDirection;
-        transform.position += Vector3.up * speed * Time.deltaTime * currentVerticalDirection;
+        transform.position += Vector3.right * speed * Time.deltaTime * currentHorizontalDirection * MainGameTracker.GAME_SPEED;
+        transform.position += Vector3.up * speed * Time.deltaTime * currentVerticalDirection * MainGameTracker.GAME_SPEED;
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, lowerHorizontalLimit, upperHorizontalcalLimit),
             Mathf.Clamp(transform.position.y, lowerVerticalLimit, upperVericalLimit), transform.position.z);
     }
