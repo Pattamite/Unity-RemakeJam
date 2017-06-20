@@ -6,23 +6,28 @@ public class Umbrella : MonoBehaviour {
 
     public float speed = 5.0f;
     [Range(0f, 8f)]  public float upperVericalLimit = 8f;
-    [Range(-8f, 0f)] public float lowerVerticalLimit = -8f;
+    [Range(-8f, 0f)] public float lowerVerticalLimit;// = -8f;
+    public float bottomMargin = 3f;
     [Range(0f, 4.5f)]  public float upperHorizontalcalLimit = 4.5f;
     [Range(-4.5f, 0f)] public float lowerHorizontalLimit = -4.5f;
     private float currentHorizontalDirection = 0f;
     private float currentVerticalDirection = 0f;
     private float sqrtHalf = Mathf.Sqrt(0.5f);
 
-    void Start () {
+    void Start ()
+    {
+        lowerVerticalLimit = MainGameTracker.FLOOR_LEVEL + bottomMargin;
     }
 
   // Update is called once per frame
-    void Update () {
+    void Update ()
+    {
         Movement();
     }
 
     private void Movement()
     {
+        // TODO: Raise umbrella with floor level
         currentHorizontalDirection = 0f;
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {

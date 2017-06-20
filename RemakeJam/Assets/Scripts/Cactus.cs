@@ -8,6 +8,9 @@ public class Cactus : MonoBehaviour
     public static int STATUS_INVINCIBLE = -1;
     public static int STATUS_DEAD = -2;
 
+    public float cooldown = 3f;
+    public float fallSpeed = 2.5f;
+    public float riseSpeed = 0.3f;
     public float maxSpeed = 2f;
     public float minSpeed = 0.1f;
     public float startSpeed = 0.5f;
@@ -22,13 +25,15 @@ public class Cactus : MonoBehaviour
     private int status;
     public float movementDirection;
     private float randomValue;
+    private float spawnTime;
 
     void Start()
     {
         currentSpeed = startSpeed;
-        status = STATUS_NORMAL;
+        status = STATUS_INVINCIBLE;
         movementDirection = 1f;
         currentHealth = maxHealth;
+        spawnTime = Time.time;
 
         StartCoroutine(UpdateSpeed());
     }
@@ -36,11 +41,26 @@ public class Cactus : MonoBehaviour
     void Update()
     {
         Movement();
+        if (Time.time - spawnTime >= cooldown && status != STATUS_NORMAL)
+        {
+            status = STATUS_NORMAL;
+        }
     }
 
     private void Movement()
     {
-        transform.position += Vector3.right * currentSpeed * Time.deltaTime * MainGameTracker.GAME_SPEED * movementDirection;
+        if (transform.position.y > MainGameTracker.FLOOR_LEVEL)
+        {
+            transform.position += Vector3.down * fallSpeed * Time.deltaTime * MainGameTracker.GAME_SPEED;
+        }
+        else
+        {
+            if (transform.position.y < MainGameTracker.FLOOR_LEVEL - riseSpeed)
+            {
+                transform.position += Vector3.up * riseSpeed * Time.deltaTime * MainGameTracker.GAME_SPEED;
+            }
+            transform.position += Vector3.right * currentSpeed * Time.deltaTime * MainGameTracker.GAME_SPEED * movementDirection;
+        }
     }
 
     public void GetHit()
@@ -101,11 +121,14 @@ public class Cactus : MonoBehaviour
         else if(otherObject.GetComponent<Raindrop>())
         {
             otherObject.GetComponent<Raindrop>().Kill();
-            GetHit();
+            if (status == STATUS_NORMAL)
+            {
+                GetHit();
+            }
             print(id + " hit by raindrop / HP = " + currentHealth);
         }
         else if(otherObject.layer == 9) movementDirection *= -1f;
-    }   
+    }
 
     IEnumerator UpdateSpeed()
     {
