@@ -17,6 +17,7 @@ public class CactusSpawner : MonoBehaviour
     private float lastSpawnTime;
     private float sigma;
     private float centerX;
+    private int nextID;
 
     void Start ()
     {
@@ -33,6 +34,8 @@ public class CactusSpawner : MonoBehaviour
                 centerX = umbrella.transform.position.x * 1f;
                 GameObject newCactus = Instantiate(cactus, new Vector3(Mathf.Clamp(centerX + NormalDistributionRandom(-maxRange, maxRange), -maxSpawnRange, maxSpawnRange), verticalSpawnLocation, 0), Quaternion.identity) as GameObject;
                 newCactus.transform.parent = cacti.transform;
+                newCactus.GetComponent<Cactus>().id = nextID;
+                nextID++;
             }
         }
     }
@@ -41,6 +44,7 @@ public class CactusSpawner : MonoBehaviour
     {
         sigma = maxSpawnRange / 3;
         lastSpawnTime = Time.time;
+        nextID = cacti.transform.childCount;
     }
 
     private float NormalDistributionRandom(float lower, float upper)

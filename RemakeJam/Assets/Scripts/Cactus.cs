@@ -8,7 +8,7 @@ public class Cactus : MonoBehaviour
     public static int STATUS_INVINCIBLE = -1;
     public static int STATUS_DEAD = -2;
 
-    public float cooldown = 3f;
+    public float cooldown = 6f;
     public float fallSpeed = 2.5f;
     public float riseSpeed = 0.3f;
     public float maxSpeed = 2f;
@@ -17,6 +17,8 @@ public class Cactus : MonoBehaviour
     public float randomSpeedRange = 0.1f;
     public float randomTime = 1.5f;
     public int maxHealth = 5;
+    [Range(0f, 4.5f)]  public float upperHorizontalcalLimit = 4.5f;
+    [Range(-4.5f, 0f)] public float lowerHorizontalLimit = -4.5f;
 
     public int id = 0;
     public int currentHealth;
@@ -61,6 +63,9 @@ public class Cactus : MonoBehaviour
             }
             transform.position += Vector3.right * currentSpeed * Time.deltaTime * MainGameTracker.GAME_SPEED * movementDirection;
         }
+
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, lowerHorizontalLimit, upperHorizontalcalLimit),
+            transform.position.y, transform.position.z);
     }
 
     public void GetHit()
@@ -128,6 +133,20 @@ public class Cactus : MonoBehaviour
             print(id + " hit by raindrop / HP = " + currentHealth);
         }
         else if(otherObject.layer == 9) movementDirection *= -1f;
+    }
+
+    void OnTriggerStay2D(Collider2D collide)
+    {
+        GameObject otherObject = collide.gameObject;
+        if (otherObject.GetComponent<Cactus>())
+        {
+            Cactus otherCactus = otherObject.GetComponent<Cactus>();
+
+            if (id < otherCactus.id)
+            {
+                movementDirection = otherCactus.movementDirection * -1f;
+            }
+        }
     }
 
     IEnumerator UpdateSpeed()

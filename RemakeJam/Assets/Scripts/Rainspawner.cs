@@ -7,7 +7,7 @@ public class Rainspawner : MonoBehaviour
     public GameObject cacti;
     public Object raindrop;
     [Range(0f, 4.5f)] public float maxRangeFromCacti = 1f;
-    [Range(0f, 2f)]   public float spawnTime = 0.5f;
+    [Range(0f, 2f)]   public float spawnDelay = 0.5f;
     [Range(0f, 4.5f)] public float spawnRange = 4f;
     [Range(7f, 9f)]   public float verticalSpawnLocation = 9f;
     
@@ -27,9 +27,10 @@ public class Rainspawner : MonoBehaviour
 	
 	void Update ()
     {
-        if (spawnTime > 0f)
+        sigma = maxRangeFromCacti / 3;
+        if (spawnDelay > 0f)
         {
-            if (Time.time - lastSpawnTime >= (spawnTime / MainGameTracker.GAME_SPEED))
+            if (Time.time - lastSpawnTime >= (spawnDelay / MainGameTracker.GAME_SPEED))
             {
                 lastSpawnTime = Time.time;
                 totalCacti = cacti.transform.childCount;
