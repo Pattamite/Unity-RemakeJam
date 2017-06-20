@@ -48,8 +48,13 @@ public class Cactus : MonoBehaviour
         currentHealth--;
         if(currentHealth <= 0)
         {
-            Destroy(this.gameObject);
+            
         }
+    }
+
+    public void Kill()
+    {
+        Destroy(this.gameObject);
     }
 
     void OnTriggerEnter2D(Collider2D collide)
