@@ -20,7 +20,6 @@ public class Cactus : MonoBehaviour
     public float movementDirection;
     private float randomValue;
 
-    // Use this for initialization
     void Start()
     {
         currentSpeed = START_SPEED;
@@ -30,7 +29,6 @@ public class Cactus : MonoBehaviour
         StartCoroutine(UpdateSpeed());
     }
 
-    // Update is called once per frame
     void Update()
     {
         Movement();
@@ -47,6 +45,7 @@ public class Cactus : MonoBehaviour
         if(otherObject.GetComponent<Cactus>())
         {
             Cactus otherCactus = otherObject.GetComponent<Cactus>();
+
             if(id > otherCactus.id)
             {
                 if(movementDirection == otherCactus.movementDirection)
@@ -80,6 +79,10 @@ public class Cactus : MonoBehaviour
                     otherCactus.movementDirection *= -1f;
                 }
             }
+        }
+        else if (otherObject.GetComponent<Raindrop>())
+        {
+            print(id + " hit by raindrop");
         }
         else movementDirection *= -1f;
     }   
