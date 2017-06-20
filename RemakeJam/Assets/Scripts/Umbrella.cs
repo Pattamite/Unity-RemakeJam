@@ -5,6 +5,10 @@ using UnityEngine;
 public class Umbrella : MonoBehaviour {
 
     public float speed = 5.0f;
+    [Range(0f, 8f)]  public float upperVericalLimit = 8f;
+    [Range(-8f, 0f)] public float lowerVerticalLimit = -8f;
+    [Range(0f, 4.5f)]  public float upperHorizontalcalLimit = 4.5f;
+    [Range(-4.5f, 0f)] public float lowerHorizontalLimit = -4.5f;
     private float currentHorizontalDirection = 0f;
     private float currentVerticalDirection = 0f;
     private float sqrtHalf = Mathf.Sqrt(0.5f);
@@ -42,7 +46,9 @@ public class Umbrella : MonoBehaviour {
             currentVerticalDirection *= sqrtHalf;
         }
 
-        transform.position += Vector3.right * speed * Time.deltaTime * currentHorizontalDirection * MainGameTracker.GAME_SPEED;
-        transform.position += Vector3.up * speed * Time.deltaTime * currentVerticalDirection * MainGameTracker.GAME_SPEED;
+        transform.position += Vector3.right * speed * Time.deltaTime * currentHorizontalDirection;
+        transform.position += Vector3.up * speed * Time.deltaTime * currentVerticalDirection;
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, lowerHorizontalLimit, upperHorizontalcalLimit),
+            Mathf.Clamp(transform.position.y, lowerVerticalLimit, upperVericalLimit), transform.position.z);
     }
 }

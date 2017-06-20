@@ -48,7 +48,7 @@ public class Cactus : MonoBehaviour
         currentHealth--;
         if(currentHealth <= 0)
         {
-            
+            Kill();
         }
     }
 

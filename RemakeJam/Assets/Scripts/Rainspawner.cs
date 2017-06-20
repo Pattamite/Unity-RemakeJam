@@ -29,7 +29,7 @@ public class Rainspawner : MonoBehaviour
     {
         if (spawnTime > 0f)
         {
-            if (Time.time - lastSpawnTime >= spawnTime)
+            if (Time.time - lastSpawnTime >= (spawnTime / MainGameTracker.GAME_SPEED))
             {
                 lastSpawnTime = Time.time;
                 totalCacti = cacti.transform.childCount;
