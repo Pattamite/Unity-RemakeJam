@@ -9,4 +9,9 @@ public class LevelManager : MonoBehaviour {
     {
         SceneManager.LoadScene(level);
     }
+
+    public static void LoadSceneStatic(int level)
+    {
+        SceneManager.LoadScene(level);
+    }
 }
