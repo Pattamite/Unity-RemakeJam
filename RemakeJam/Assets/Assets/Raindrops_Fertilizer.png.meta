@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 2be586dba074a5a4db3d49e7aa7c8bac
-timeCreated: 1497971063
+guid: edb9d67f1c46e4a22bb87392f2694710
+timeCreated: 1497971053
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName: {}
@@ -82,7 +82,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
-  - buildTarget: WebGL
+  - buildTarget: Tizen
     maxTextureSize: 2048
     textureFormat: -1
     textureCompression: 1
@@ -90,7 +90,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
-  - buildTarget: Tizen
+  - buildTarget: WebGL
     maxTextureSize: 2048
     textureFormat: -1
     textureCompression: 1
