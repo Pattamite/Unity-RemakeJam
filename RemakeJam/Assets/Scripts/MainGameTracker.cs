@@ -14,12 +14,13 @@ public class MainGameTracker : LevelManager
     public static Text LIVES_COUNT_TEXT;
     public static Text SCORE_COUNT_TEXT;
     public static int SCORE_RAIN = 100;
+    public static int SCORE_FERT = 100;
     public static int CURRENT_SCORE = 0;
     [Range(0.0f, 10.0f)] public float gameSpeed = 1.0f;
     [Range(-4.0f, 8.0f)] public float floorLevel = -4.0f;
     [Range(1, 20)] public int maxLives = 10;
     public int scoreRain = 100;
-
+    public int scoreFert = 100;
 
     private static int CURRENT_LIVES;
 
@@ -33,6 +34,7 @@ public class MainGameTracker : LevelManager
         SCORE_COUNT_TEXT = ScoreCountText;
         SCORE_COUNT_TEXT.text = CURRENT_SCORE.ToString();
         SCORE_RAIN = scoreRain;
+        SCORE_FERT = scoreFert;
     }
 
     void Update ()
@@ -51,6 +53,12 @@ public class MainGameTracker : LevelManager
     public static void AddScoreRain()
     {
         CURRENT_SCORE += SCORE_RAIN;
+        SCORE_COUNT_TEXT.text = CURRENT_SCORE.ToString();
+    }
+
+    public static void AddScoreFert()
+    {
+        CURRENT_SCORE += SCORE_FERT;
         SCORE_COUNT_TEXT.text = CURRENT_SCORE.ToString();
     }
 

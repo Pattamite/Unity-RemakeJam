@@ -28,5 +28,11 @@ public class Fert : MonoBehaviour
         {
             Kill();
         }
+        if(otherObject.GetComponent<Cactus>())
+        {
+            otherObject.GetComponent<Cactus>().Heal();
+            MainGameTracker.AddScoreFert();
+            Kill();
+        }
     }
 }

@@ -9,4 +9,9 @@ public class HealthBar : MonoBehaviour {
     {
         gameObject.GetComponent<Slider>().value = value;
     }
+
+    public void SetColor(Color value)
+    {
+        transform.Find("Fill Area/Fill").gameObject.GetComponent<Image>().color = value;
+    }
 }

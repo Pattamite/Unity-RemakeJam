@@ -6,54 +6,68 @@ public class FertSpawner : MonoBehaviour
 {
     public GameObject umbrella;
     public GameObject fert;
+    public GameObject fertBar;
 
-    public float charges = 2f; // 1 = 100% for one drop
-    public float refillRate = 0.001f;
+    public Color normalBarColor;
+    public Color notEnoughBarColor;
+
+    public float startCharges = 2f; // 1 = 100% for one drop
+    public float refillRate = 0.02f;
     public float maxCharges = 5f;
+    public float chargesUse = 1f;
     public float lastDropped;
     public float cooldown = 0.06f;
-    public bool dropped = false;
+
+
+    public float currentCharges;
     // Use this for initialization
     void Start ()
     {
-        lastDropped = 0f;
+        currentCharges = startCharges;
+        lastDropped = Time.time;
     }
 
     // Update is called once per frame
     void Update ()
     {
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             tryDrop();
         }
-        else
-        {
-            dropped = false;
-        }
+            
         refill(refillRate);
+        fertBar.GetComponent<HealthBar>().SetValue(currentCharges / maxCharges);
+        setBarColor();
     }
+
+    private void setBarColor()
+    {
+        if (currentCharges < chargesUse) fertBar.GetComponent<HealthBar>().SetColor(notEnoughBarColor);
+        else fertBar.GetComponent<HealthBar>().SetColor(normalBarColor);
+    }
+
     private void tryDrop()
     {
-        if (charges >= 1f && dropped == false)
+        if (currentCharges >= chargesUse)
         {
             GameObject newFert = Instantiate(fert, new Vector3(umbrella.transform.position.x, umbrella.transform.position.y, 0),
                                              Quaternion.identity) as GameObject;
             newFert.transform.parent = this.transform;
-            charges = charges - 1f;
+            currentCharges -= chargesUse;
+            
             lastDropped = Time.time;
-            dropped = true;
         }
         // TODO: Add not enough charges sfx
     }
 
     private void refill (float amount)
     {
-        if (charges < maxCharges)
+        if (currentCharges < maxCharges)
         {
-            charges = charges + amount;
-            if (charges > maxCharges)
+            currentCharges += amount * Time.deltaTime * MainGameTracker.GAME_SPEED;
+            if (currentCharges > maxCharges)
             {
-                charges = maxCharges;
+                currentCharges = maxCharges;
             }
         }
     }
