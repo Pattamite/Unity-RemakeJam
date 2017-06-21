@@ -79,7 +79,7 @@ public class Cactus : MonoBehaviour
 
     private void SetHealthBarValue()
     {
-        healthBar.GetComponent<Slider>().value = (float)currentHealth / (float)maxHealth;
+        healthBar.GetComponent<HealthBar>().SetValue((float)currentHealth / (float)maxHealth);
     }
 
     private void Movement()
