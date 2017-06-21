@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Cactus : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class Cactus : MonoBehaviour
     public static int STATUS_NORMAL = 0;
     public static int STATUS_INVINCIBLE = -1;
     public static int STATUS_DEAD = -2;
+
+    public Object cactusHealthBar;
+    private GameObject canvas;
 
     public float cooldownAfterHit = 1f;
     public float fallSpeed = 2.5f;
@@ -37,9 +41,13 @@ public class Cactus : MonoBehaviour
     private float lastBlinkTime;
     [Range(0.1f, 1f)] public float blinkDelay = 0.2f;
 
+    private GameObject healthBar;
+    [Range(-3f, 0f)] public float healthBarYOffSet = -1.5f;
+
     void Start()
     {
         SetupVar();
+        SetupHealthBar();
         StartCoroutine(UpdateSpeed());
     }
 
@@ -57,6 +65,21 @@ public class Cactus : MonoBehaviour
         currentHealth = maxHealth;
         lastHitTime = Time.time;
         lastBlinkTime = Time.time;
+        canvas = GameObject.Find("Canvas");
+    }
+
+    private void SetupHealthBar()
+    {
+        healthBar = Instantiate(cactusHealthBar, 
+            new Vector3(this.transform.position.x, this.transform.position.y + healthBarYOffSet, this.transform.position.z), 
+            Quaternion.identity) as GameObject;
+        healthBar.transform.parent = canvas.transform;
+        SetHealthBarValue();
+    }
+
+    private void SetHealthBarValue()
+    {
+        healthBar.GetComponent<Slider>().value = (float)currentHealth / (float)maxHealth;
     }
 
     private void Movement()
@@ -84,6 +107,8 @@ public class Cactus : MonoBehaviour
 
         if (transform.position.x == lowerHorizontalLimit) movementDirection = 1f;
         if (transform.position.x == upperHorizontalcalLimit) movementDirection = -1f;
+
+        healthBar.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + healthBarYOffSet, this.transform.position.z);
     }
 
     private void StatusChecking()
@@ -113,6 +138,7 @@ public class Cactus : MonoBehaviour
         {
             status = STATUS_INVINCIBLE;
             lastHitTime = Time.time;
+            SetHealthBarValue();
         }
     }
 
@@ -123,11 +149,13 @@ public class Cactus : MonoBehaviour
         {
             currentHealth = maxHealth;
         }
+        SetHealthBarValue();
     }
 
     public void Kill()
     {
         MainGameTracker.LifeLost();
+        Destroy(healthBar);
         Destroy(this.gameObject);
     }
 
@@ -179,7 +207,7 @@ public class Cactus : MonoBehaviour
             {
                 GetHit();
             }
-            print(id + " hit by raindrop / HP = " + currentHealth);
+            //print(id + " hit by raindrop / HP = " + currentHealth);
         }
         else if(otherObject.GetComponent<Fert>())
         {
