@@ -127,6 +127,7 @@ public class Cactus : MonoBehaviour
 
     public void Kill()
     {
+        MainGameTracker.LifeLost();
         Destroy(this.gameObject);
     }
 
