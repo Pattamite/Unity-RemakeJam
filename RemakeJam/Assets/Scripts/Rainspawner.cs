@@ -54,7 +54,7 @@ public class Rainspawner : MonoBehaviour
                     GameObject newRaindrop = Instantiate(raindrop
                         , new Vector3(Mathf.Clamp(cactiPosition + NormalDistributionRandom(), -spawnRange, spawnRange), verticalSpawnLocation, 0),
                          Quaternion.identity) as GameObject;
-                    newRaindrop.transform.parent = this.transform;
+                    newRaindrop.transform.SetParent(this.transform);
                 }
             }
         }

@@ -33,7 +33,7 @@ public class CactusSpawner : MonoBehaviour
                 // Spawn cactus
                 centerX = umbrella.transform.position.x * 1f;
                 GameObject newCactus = Instantiate(cactus, new Vector3(Mathf.Clamp(centerX + NormalDistributionRandom(-maxRange, maxRange), -maxSpawnRange, maxSpawnRange), verticalSpawnLocation, 0), Quaternion.identity) as GameObject;
-                newCactus.transform.parent = cacti.transform;
+                newCactus.transform.SetParent(cacti.transform);
                 newCactus.GetComponent<Cactus>().id = nextID;
                 nextID++;
             }

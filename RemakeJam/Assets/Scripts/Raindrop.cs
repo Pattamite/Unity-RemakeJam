@@ -33,6 +33,7 @@ public class Raindrop : MonoBehaviour
         }
         else if(otherObject.GetComponent<Umbrella>())
         {
+            MainGameTracker.AddScoreRain();
             Kill();
         }
     }

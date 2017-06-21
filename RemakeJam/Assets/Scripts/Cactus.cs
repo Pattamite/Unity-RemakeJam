@@ -73,7 +73,8 @@ public class Cactus : MonoBehaviour
         healthBar = Instantiate(cactusHealthBar, 
             new Vector3(this.transform.position.x, this.transform.position.y + healthBarYOffSet, this.transform.position.z), 
             Quaternion.identity) as GameObject;
-        healthBar.transform.parent = canvas.transform;
+        
+        healthBar.transform.SetParent(canvas.transform);
         SetHealthBarValue();
     }
 
