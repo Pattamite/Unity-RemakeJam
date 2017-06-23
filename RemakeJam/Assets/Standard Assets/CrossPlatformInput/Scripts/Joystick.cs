@@ -6,7 +6,12 @@ namespace UnityStandardAssets.CrossPlatformInput
 {
 	public class Joystick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
 	{
-		public enum AxisOption
+        private float canvasWidth = 277;
+        private float canvasHeight = 493;
+        private float cameraWidth = 9f;
+        private float cameraHeight = 16f;
+
+        public enum AxisOption
 		{
 			// Options for which axes to use
 			Both, // Use both
@@ -14,7 +19,7 @@ namespace UnityStandardAssets.CrossPlatformInput
 			OnlyVertical // Only vertical
 		}
 
-		public int MovementRange = 100;
+		public float MovementRange = 100;
 		public AxisOption axesToUse = AxisOption.Both; // The options for the axes that the still will use
 		public string horizontalAxisName = "Horizontal"; // The name given to the horizontal axis for the cross platform input
 		public string verticalAxisName = "Vertical"; // The name given to the vertical axis for the cross platform input
@@ -25,14 +30,13 @@ namespace UnityStandardAssets.CrossPlatformInput
 		CrossPlatformInputManager.VirtualAxis m_HorizontalVirtualAxis; // Reference to the joystick in the cross platform input
 		CrossPlatformInputManager.VirtualAxis m_VerticalVirtualAxis; // Reference to the joystick in the cross platform input
 
-		void OnEnable()
-		{
-			CreateVirtualAxes();
-		}
 
         void Start()
         {
-            m_StartPos = transform.position;
+            CreateVirtualAxes();
+            m_StartPos = this.transform.position;
+
+            //print(canvasWidth + " " + canvasHeight);
         }
 
 		void UpdateVirtualAxes(Vector3 value)
@@ -74,21 +78,27 @@ namespace UnityStandardAssets.CrossPlatformInput
 		public void OnDrag(PointerEventData data)
 		{
 			Vector3 newPos = Vector3.zero;
+            Vector2 newData = new Vector2( (data.position.x / canvasWidth) * cameraWidth - (cameraWidth / 2f),
+                (data.position.y / canvasHeight) * cameraHeight - (cameraHeight / 2f));
+
+            
 
 			if (m_UseX)
 			{
-				int delta = (int)(data.position.x - m_StartPos.x);
+                float delta = (float)newData.x - (float)m_StartPos.x;
 				//delta = Mathf.Clamp(delta, - MovementRange, MovementRange);
 				newPos.x = delta;
 			}
 
 			if (m_UseY)
 			{
-				int delta = (int)(data.position.y - m_StartPos.y);
+                float delta = (float)newData.y - (float)m_StartPos.y;
 				//delta = Mathf.Clamp(delta, -MovementRange, MovementRange);
 				newPos.y = delta;
 			}
-			transform.position = Vector3.ClampMagnitude(new Vector3(newPos.x, newPos.y, + newPos.z), MovementRange) + m_StartPos;
+            //print(m_StartPos.ToString("F8") + " / " + newData.ToString("F8"));
+            print(data.position);
+            transform.position = Vector3.ClampMagnitude(new Vector3(newPos.x, newPos.y, + newPos.z), MovementRange) + m_StartPos;
 			UpdateVirtualAxes(transform.position);
 		}
 
