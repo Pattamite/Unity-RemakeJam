@@ -65,7 +65,7 @@ public class Cactus : MonoBehaviour
         currentHealth = maxHealth;
         lastHitTime = Time.time;
         lastBlinkTime = Time.time;
-        canvas = GameObject.Find("Canvas");
+        canvas = GameObject.Find("CactusHealthBarCanvas");
     }
 
     private void SetupHealthBar()

@@ -30,9 +30,9 @@ public class MainGameTracker : LevelManager
         MAX_LIVES = maxLives;
         CURRENT_LIVES = MAX_LIVES;
         LIVES_COUNT_TEXT = livesCountText;
-        LIVES_COUNT_TEXT.text = CURRENT_LIVES.ToString();
+        SetLivesText();
         SCORE_COUNT_TEXT = ScoreCountText;
-        SCORE_COUNT_TEXT.text = CURRENT_SCORE.ToString();
+        SetScoreText();
         SCORE_RAIN = scoreRain;
         SCORE_FERT = scoreFert;
     }
@@ -46,25 +46,35 @@ public class MainGameTracker : LevelManager
     public static void LifeLost()
     {
         CURRENT_LIVES--;
-        LIVES_COUNT_TEXT.text = CURRENT_LIVES.ToString();
+        SetLivesText();
         if (CURRENT_LIVES <= 0) GameOver();
     }
 
     public static void AddScoreRain()
     {
         CURRENT_SCORE += SCORE_RAIN;
-        SCORE_COUNT_TEXT.text = CURRENT_SCORE.ToString();
+        SetScoreText();
     }
 
     public static void AddScoreFert()
     {
         CURRENT_SCORE += SCORE_FERT;
-        SCORE_COUNT_TEXT.text = CURRENT_SCORE.ToString();
+        SetScoreText();
     }
 
     public static void GameOver()
     {
         PlayerPrefs.SetInt(PlayerPrefsKeys.CURRENT_SCORE, CURRENT_SCORE);
         LoadSceneStatic(ScenesNumber.GAME_OVER);
+    }
+
+    private static void SetScoreText()
+    {
+        SCORE_COUNT_TEXT.text = "Score: " + CURRENT_SCORE.ToString();
+    }
+
+    private static void SetLivesText()
+    {
+        LIVES_COUNT_TEXT.text = "Lives: " + CURRENT_LIVES.ToString();
     }
 }
