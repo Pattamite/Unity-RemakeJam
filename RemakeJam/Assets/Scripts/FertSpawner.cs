@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.CrossPlatformInput;
 
 public class FertSpawner : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class FertSpawner : MonoBehaviour
 
     public Color normalBarColor;
     public Color notEnoughBarColor;
+
+    public bool mobileControl = true;
 
     public float startCharges = 2f; // 1 = 100% for one drop
     public float refillRate = 0.02f;
@@ -34,10 +37,17 @@ public class FertSpawner : MonoBehaviour
         {
             tryDrop();
         }
+        if (mobileControl) MobileInput();
             
         refill(refillRate);
         fertBar.GetComponent<HealthBar>().SetValue(currentCharges / maxCharges);
         setBarColor();
+    }
+
+    private void MobileInput()
+    {
+        if(CrossPlatformInputManager.GetButtonDown("FertDown")) tryDrop();
+        else if (CrossPlatformInputManager.GetButtonDown("FertScreen")) tryDrop();
     }
 
     private void setBarColor()

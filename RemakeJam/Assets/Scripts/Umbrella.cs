@@ -1,8 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.CrossPlatformInput;
 
 public class Umbrella : MonoBehaviour {
+
+    public bool mobileControl = true;
 
     public float speed = 5.0f;
     [Range(0f, 8f)]  public float upperVericalLimit = 8f;
@@ -23,6 +26,7 @@ public class Umbrella : MonoBehaviour {
     void Update ()
     {
         Movement();
+        if (mobileControl) MobileMovement();
     }
 
     private void Movement()
@@ -53,6 +57,19 @@ public class Umbrella : MonoBehaviour {
 
         transform.position += Vector3.right * speed * Time.deltaTime * currentHorizontalDirection * MainGameTracker.GAME_SPEED;
         transform.position += Vector3.up * speed * Time.deltaTime * currentVerticalDirection * MainGameTracker.GAME_SPEED;
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, lowerHorizontalLimit, upperHorizontalcalLimit),
+            Mathf.Clamp(transform.position.y, lowerVerticalLimit, upperVericalLimit), transform.position.z);
+    }
+
+    private void MobileMovement()
+    {
+        // TODO: Raise umbrella with floor level
+
+
+        transform.position += new Vector3(CrossPlatformInputManager.GetAxis("Horizontal"), CrossPlatformInputManager.GetAxis("Vertical"), 0)
+            * speed * Time.deltaTime * MainGameTracker.GAME_SPEED;
+
+
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, lowerHorizontalLimit, upperHorizontalcalLimit),
             Mathf.Clamp(transform.position.y, lowerVerticalLimit, upperVericalLimit), transform.position.z);
     }
