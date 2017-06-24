@@ -30,9 +30,7 @@ public class Umbrella : MonoBehaviour {
     void Update ()
     {
         Movement();
-<<<<<<< HEAD
         if (mobileControl) MobileMovement();
-=======
         lowerVerticalLimit = MainGameTracker.FLOOR_LEVEL + bottomMargin;
     }
 
@@ -45,7 +43,6 @@ public class Umbrella : MonoBehaviour {
     {
         stunStatus = true;
         stunTime = Time.time;
->>>>>>> refs/heads/pr/4
     }
 
     private void Movement()

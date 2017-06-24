@@ -37,12 +37,8 @@ public class FertSpawner : MonoBehaviour
         {
             tryDrop();
         }
-<<<<<<< HEAD
         if (mobileControl) MobileInput();
             
-=======
-
->>>>>>> refs/heads/pr/4
         refill(refillRate);
         fertBar.GetComponent<HealthBar>().SetValue(currentCharges / maxCharges);
         setBarColor();

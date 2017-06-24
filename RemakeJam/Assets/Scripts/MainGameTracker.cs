@@ -45,23 +45,17 @@ public class MainGameTracker : LevelManager
         SetScoreText();
         SCORE_RAIN = scoreRain;
         SCORE_FERT = scoreFert;
-<<<<<<< HEAD
-        IS_PAUSE = false;
-=======
         FLOOR_LEVEL = floorLevel;
         SAFE_TIME = Time.time;
         RISING_SPEED = risingSpeed;
         GAME_SPEED = gameSpeed;
->>>>>>> refs/heads/pr/4
     }
 
     void Update ()
     {
-<<<<<<< HEAD
         if(!IS_PAUSE) GAME_SPEED = gameSpeed;
         FLOOR_LEVEL = floorLevel;
         if (CrossPlatformInputManager.GetButtonDown("Pause")) TogglePause();
-=======
         GAME_SPEED = gameSpeed;
         if (FLOOR_LEVEL < MAX_FLOOR_LEVEL && Time.time - SAFE_TIME >= SAFE_COOLDOWN)
         {
@@ -72,7 +66,6 @@ public class MainGameTracker : LevelManager
             }
         }
         NextLevel();
->>>>>>> refs/heads/pr/4
     }
 
     public static void NextLevel()
