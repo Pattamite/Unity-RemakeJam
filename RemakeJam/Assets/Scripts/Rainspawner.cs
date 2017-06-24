@@ -30,6 +30,7 @@ public class Rainspawner : MonoBehaviour
 
     void Update ()
     {
+        spawnDelay = MainGameTracker.CURRENT_LEVEL / 4.0f;
         sigma = maxRangeFromCacti / 3;
         if (spawnDelay > 0f)
         {

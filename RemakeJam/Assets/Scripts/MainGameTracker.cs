@@ -20,6 +20,7 @@ public class MainGameTracker : LevelManager
     public static int SCORE_RAIN = 100;
     public static int SCORE_FERT = 100;
     public static int CURRENT_SCORE = 0;
+    public static int CURRENT_LEVEL = 0;
     [Range(0.0f, 10.0f)] public float gameSpeed = 1.0f;
     [Range(-7.0f, 8.0f)] public float floorLevel = -4.0f;
     [Range(1, 20)] public int maxLives = 10;
@@ -32,6 +33,7 @@ public class MainGameTracker : LevelManager
     void Start ()
     {
         CURRENT_SCORE = 0;
+        CURRENT_LEVEL = 0;
         MAX_LIVES = maxLives;
         CURRENT_LIVES = MAX_LIVES;
         LIVES_COUNT_TEXT = livesCountText;
@@ -43,6 +45,7 @@ public class MainGameTracker : LevelManager
         FLOOR_LEVEL = floorLevel;
         SAFE_TIME = Time.time;
         RISING_SPEED = risingSpeed;
+        GAME_SPEED = gameSpeed;
     }
 
     void Update ()
@@ -56,8 +59,16 @@ public class MainGameTracker : LevelManager
                 FLOOR_LEVEL = MAX_FLOOR_LEVEL;
             }
         }
+        NextLevel();
     }
 
+    public static void NextLevel()
+    {
+        if (CURRENT_SCORE >= Mathf.Pow(8, CURRENT_LEVEL + 1))
+        {
+            CURRENT_LEVEL = CURRENT_LEVEL + 1;
+        }
+    }
     public static void LifeLost()
     {
         CURRENT_LIVES--;

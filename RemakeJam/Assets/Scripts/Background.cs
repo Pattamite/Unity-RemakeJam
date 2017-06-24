@@ -15,7 +15,7 @@ public class Background : MonoBehaviour
     // Update is called once per frame
     void Update ()
     {
-        if (currentScale > scaleMax)
+        if (currentScale > scaleMin - MainGameTracker.CURRENT_LEVEL && currentScale > scaleMax)
         {
             currentScale = currentScale - growthRate * Time.deltaTime;
         }
