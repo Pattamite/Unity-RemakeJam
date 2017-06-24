@@ -10,9 +10,11 @@ public class Cactus : MonoBehaviour
     public static int STATUS_INVINCIBLE = -1;
     public static int STATUS_DEAD = -2;
 
+
     public Object cactusHealthBar;
     private GameObject canvas;
 
+    public bool isMovingHorizontal = true;
     public float cooldownAfterHit = 1f;
     public float fallSpeed = 2.5f;
     public float submergeLevel = 0.2f;
@@ -85,7 +87,7 @@ public class Cactus : MonoBehaviour
 
     private void Movement()
     {
-        if (transform.position.y > MainGameTracker.FLOOR_LEVEL)
+        if (transform.position.y > MainGameTracker.FLOOR_LEVEL && status == STATUS_SPAWNING)
         {
             transform.position += Vector3.down * fallSpeed * Time.deltaTime * MainGameTracker.GAME_SPEED;
         }
@@ -100,7 +102,7 @@ public class Cactus : MonoBehaviour
             {
                 transform.position += Vector3.up * MainGameTracker.RISING_SPEED * Time.deltaTime * MainGameTracker.GAME_SPEED;
             }
-            transform.position += Vector3.right * currentSpeed * Time.deltaTime * MainGameTracker.GAME_SPEED * movementDirection;
+            if (isMovingHorizontal) transform.position += Vector3.right * currentSpeed * Time.deltaTime * MainGameTracker.GAME_SPEED * movementDirection;
         }
 
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, lowerHorizontalLimit, upperHorizontalcalLimit),

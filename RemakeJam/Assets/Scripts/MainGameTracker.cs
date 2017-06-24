@@ -33,6 +33,15 @@ public class MainGameTracker : LevelManager
     private static bool IS_PAUSE;
     private static float CURRENT_GAME_SPEED;
 
+    public bool isMainGame = false;
+    public Image pauseButton;
+    public Sprite pauseSprite;
+    public Sprite resumeSprite;
+
+    private static Image PAUSE_BUTTON;
+    private static Sprite PAUSE_SPRITE;
+    private static Sprite RESUME_SPRITE;
+
     void Start ()
     {
         CURRENT_SCORE = 0;
@@ -49,6 +58,12 @@ public class MainGameTracker : LevelManager
         SAFE_TIME = Time.time;
         RISING_SPEED = risingSpeed;
         GAME_SPEED = gameSpeed;
+        if (isMainGame)
+        {
+            PAUSE_BUTTON = pauseButton;
+            PAUSE_SPRITE = pauseSprite;
+            RESUME_SPRITE = resumeSprite;
+        }
     }
 
     void Update ()
@@ -116,6 +131,7 @@ public class MainGameTracker : LevelManager
             print("Resume");
             IS_PAUSE = false;
             GAME_SPEED = CURRENT_GAME_SPEED;
+            PAUSE_BUTTON.sprite = PAUSE_SPRITE;
         }
         else
         {
@@ -123,6 +139,7 @@ public class MainGameTracker : LevelManager
             IS_PAUSE = true;
             CURRENT_GAME_SPEED = GAME_SPEED;
             GAME_SPEED = 0f;
+            PAUSE_BUTTON.sprite = RESUME_SPRITE;
         }
     }
 }

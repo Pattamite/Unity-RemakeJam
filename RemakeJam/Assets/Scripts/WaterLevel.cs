@@ -10,6 +10,7 @@ public class WaterLevel : MonoBehaviour
     private float wavePosition = 0f;
     private float waveHeight = 0f;
     private float randomOffsetPos = 0f;
+    public bool isHTP = false;
     // Use this for initialization
     void Start ()
     {
@@ -22,7 +23,7 @@ public class WaterLevel : MonoBehaviour
     {
         wavePosition = Mathf.Sin(Time.time + randomOffsetPos) * multiplier;
         transform.position += Vector3.right * wavePosition * MainGameTracker.GAME_SPEED * Time.deltaTime;
-        if (transform.position.y < MainGameTracker.FLOOR_LEVEL - extraSpace)
+        if (transform.position.y < MainGameTracker.FLOOR_LEVEL - extraSpace && !isHTP)
         {
             transform.position += Vector3.up * MainGameTracker.GAME_SPEED * Time.deltaTime * MainGameTracker.RISING_SPEED;
         }
