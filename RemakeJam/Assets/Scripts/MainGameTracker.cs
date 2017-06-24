@@ -70,7 +70,7 @@ public class MainGameTracker : LevelManager
 
     public static void NextLevel()
     {
-        if (CURRENT_SCORE >= Mathf.Pow(8, CURRENT_LEVEL + 1))
+        if (CURRENT_SCORE >= Mathf.Pow(100 , CURRENT_LEVEL + 1))
         {
             CURRENT_LEVEL = CURRENT_LEVEL + 1;
         }
