@@ -46,6 +46,10 @@ public class Cactus : MonoBehaviour
     private GameObject healthBar;
     [Range(-3f, 0f)] public float healthBarYOffSet = -1.5f;
 
+    public AudioClip healSound;
+    public AudioClip hitSound;
+    public AudioClip deadSound;
+
     void Start()
     {
         SetupVar();
@@ -142,11 +146,13 @@ public class Cactus : MonoBehaviour
             status = STATUS_INVINCIBLE;
             lastHitTime = Time.time;
             SetHealthBarValue();
+            AudioSource.PlayClipAtPoint(hitSound, transform.position);
         }
     }
 
     public void Heal()
     {
+        AudioSource.PlayClipAtPoint(healSound, transform.position);
         currentHealth = currentHealth + healAmount;
         if (currentHealth > maxHealth)
         {
@@ -157,6 +163,7 @@ public class Cactus : MonoBehaviour
 
     public void Kill()
     {
+        AudioSource.PlayClipAtPoint(deadSound, transform.position);
         MainGameTracker.LifeLost();
         Destroy(healthBar);
         Destroy(this.gameObject);

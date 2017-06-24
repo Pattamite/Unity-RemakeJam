@@ -110,6 +110,7 @@ public class MainGameTracker : LevelManager
 
     public static void GameOver()
     {
+        MusicPlayer.Stop();
         PlayerPrefs.SetInt(PlayerPrefsKeys.CURRENT_SCORE, CURRENT_SCORE);
         LoadSceneStatic(ScenesNumber.GAME_OVER);
     }
@@ -128,18 +129,20 @@ public class MainGameTracker : LevelManager
     {
         if(IS_PAUSE)
         {
-            print("Resume");
+            //print("Resume");
             IS_PAUSE = false;
             GAME_SPEED = CURRENT_GAME_SPEED;
             PAUSE_BUTTON.sprite = PAUSE_SPRITE;
+            MusicPlayer.UnPause();
         }
         else
         {
-            print("Pause");
+            //print("Pause");
             IS_PAUSE = true;
             CURRENT_GAME_SPEED = GAME_SPEED;
             GAME_SPEED = 0f;
             PAUSE_BUTTON.sprite = RESUME_SPRITE;
+            MusicPlayer.Pause();
         }
     }
 }
