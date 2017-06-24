@@ -15,7 +15,7 @@ public class Cactus : MonoBehaviour
 
     public float cooldownAfterHit = 1f;
     public float fallSpeed = 2.5f;
-    public float riseSpeed = 0.3f;
+    public float submergeLevel = 0.2f;
     public float maxSpeed = 2f;
     public float minSpeed = 0.1f;
     public float startSpeed = 0.5f;
@@ -70,10 +70,10 @@ public class Cactus : MonoBehaviour
 
     private void SetupHealthBar()
     {
-        healthBar = Instantiate(cactusHealthBar, 
-            new Vector3(this.transform.position.x, this.transform.position.y + healthBarYOffSet, this.transform.position.z), 
-            Quaternion.identity) as GameObject;
-        
+        healthBar = Instantiate(cactusHealthBar,
+            new Vector3(this.transform.position.x, this.transform.position.y + healthBarYOffSet, this.transform.position.z),
+                                Quaternion.identity) as GameObject;
+
         healthBar.transform.SetParent(canvas.transform);
         SetHealthBarValue();
     }
@@ -96,9 +96,9 @@ public class Cactus : MonoBehaviour
                 status = STATUS_NORMAL;
                 StopBlinking();
             }
-            if (transform.position.y < MainGameTracker.FLOOR_LEVEL - riseSpeed)
+            if (transform.position.y < MainGameTracker.FLOOR_LEVEL)
             {
-                transform.position += Vector3.up * riseSpeed * Time.deltaTime * MainGameTracker.GAME_SPEED;
+                transform.position += Vector3.up * MainGameTracker.RISING_SPEED * Time.deltaTime * MainGameTracker.GAME_SPEED;
             }
             transform.position += Vector3.right * currentSpeed * Time.deltaTime * MainGameTracker.GAME_SPEED * movementDirection;
         }

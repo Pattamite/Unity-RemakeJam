@@ -37,8 +37,12 @@ public class FertSpawner : MonoBehaviour
         {
             tryDrop();
         }
+<<<<<<< HEAD
         if (mobileControl) MobileInput();
             
+=======
+
+>>>>>>> refs/heads/pr/4
         refill(refillRate);
         fertBar.GetComponent<HealthBar>().SetValue(currentCharges / maxCharges);
         setBarColor();
@@ -57,13 +61,13 @@ public class FertSpawner : MonoBehaviour
 
     private void tryDrop()
     {
-        if (currentCharges >= chargesUse)
+        if (currentCharges >= chargesUse && umbrella.GetComponent<Umbrella>().getStun() == false)
         {
             GameObject newFert = Instantiate(fert, new Vector3(umbrella.transform.position.x, umbrella.transform.position.y, 0),
                                              Quaternion.identity) as GameObject;
             newFert.transform.parent = this.transform;
             currentCharges -= chargesUse;
-            
+
             lastDropped = Time.time;
         }
         // TODO: Add not enough charges sfx

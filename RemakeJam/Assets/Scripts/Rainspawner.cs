@@ -6,12 +6,16 @@ public class Rainspawner : MonoBehaviour
 {
     public GameObject cacti;
     public Object raindrop;
+    public Object thunder;
+
     [Range(0f, 4.5f)] public float maxRangeFromCacti = 1f;
     [Range(0f, 2f)]   public float spawnDelay = 0.5f;
+    [Range(0f, 20f)]   public float thunderDelay = 8.5f;
     [Range(0f, 4.5f)] public float spawnRange = 4f;
     [Range(7f, 9f)]   public float verticalSpawnLocation = 9f;
-    
+
     private float lastSpawnTime;
+    private float lastThunderTime;
     private float sigma;
     private int totalCacti;
     private int selectedCacti;
@@ -19,14 +23,14 @@ public class Rainspawner : MonoBehaviour
     private bool isSelected;
     private float cactiPosition;
 
-
-	void Start ()
+    void Start ()
     {
         SetupVar();
     }
-	
-	void Update ()
+
+    void Update ()
     {
+        spawnDelay = MainGameTracker.CURRENT_LEVEL / 4.0f;
         sigma = maxRangeFromCacti / 3;
         if (spawnDelay > 0f)
         {
@@ -55,11 +59,26 @@ public class Rainspawner : MonoBehaviour
                         , new Vector3(Mathf.Clamp(cactiPosition + NormalDistributionRandom(), -spawnRange, spawnRange), verticalSpawnLocation, 0),
                          Quaternion.identity) as GameObject;
                     newRaindrop.transform.SetParent(this.transform);
+                    if (thunderDelay > 0f)
+                    {
+                        if (Time.time - lastThunderTime >= (thunderDelay / MainGameTracker.GAME_SPEED))
+                        {
+                            lastThunderTime = Time.time;
+                            GameObject newThunder = Instantiate(thunder
+                                                                , new Vector3(Mathf.Clamp(cactiPosition + NormalDistributionRandom(),
+                                                                                          -spawnRange, spawnRange), verticalSpawnLocation, 0),
+                                                                Quaternion.identity) as GameObject;
+                            newThunder.transform.SetParent(this.transform);
+                        }
+                    }
+                    newRaindrop = Instantiate(raindrop
+                                              , new Vector3(Mathf.Clamp((Random.value -0.5f) * 8.0f, -spawnRange, spawnRange),
+                                                            verticalSpawnLocation + Random.value, 0), Quaternion.identity) as GameObject;
+                    newRaindrop.transform.SetParent(this.transform);
                 }
             }
         }
-
-	}
+    }
 
     private void SetupVar()
     {
@@ -81,6 +100,6 @@ public class Rainspawner : MonoBehaviour
         } while (S >= 1.0f);
 
         return Mathf.Clamp(r1 * Mathf.Sqrt(-2.0f * Mathf.Log(S) / S) * sigma,
-                            -maxRangeFromCacti, maxRangeFromCacti);
+                           -maxRangeFromCacti, maxRangeFromCacti);
     }
 }

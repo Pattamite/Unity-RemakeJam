@@ -8,7 +8,7 @@ public class CactusSpawner : MonoBehaviour
     public GameObject umbrella;
     public GameObject cactus;
 
-    public int level = 2; // level + 1 = # of cacti
+    public int level; // level + 1 = # of cacti
     public float maxSpawnRange = 2f;
     public float maxRange = 1f;
     public float verticalSpawnLocation = 9f;
@@ -42,6 +42,7 @@ public class CactusSpawner : MonoBehaviour
 
     private void SetupVar()
     {
+        level = MainGameTracker.CURRENT_LEVEL;
         sigma = maxSpawnRange / 3;
         lastSpawnTime = Time.time;
         nextID = cacti.transform.childCount;
