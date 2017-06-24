@@ -46,8 +46,7 @@ public class FertSpawner : MonoBehaviour
 
     private void MobileInput()
     {
-        if(CrossPlatformInputManager.GetButtonDown("FertDown")) tryDrop();
-        else if (CrossPlatformInputManager.GetButtonDown("FertScreen")) tryDrop();
+        if (CrossPlatformInputManager.GetButtonDown("FertScreen")) tryDrop();
     }
 
     private void setBarColor()

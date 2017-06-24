@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityStandardAssets.CrossPlatformInput;
 
 public class MainGameTracker : LevelManager
 {
@@ -23,6 +24,8 @@ public class MainGameTracker : LevelManager
     public int scoreFert = 100;
 
     private static int CURRENT_LIVES;
+    private static bool IS_PAUSE;
+    private static float CURRENT_GAME_SPEED;
 
     void Start ()
     {
@@ -35,12 +38,14 @@ public class MainGameTracker : LevelManager
         SetScoreText();
         SCORE_RAIN = scoreRain;
         SCORE_FERT = scoreFert;
+        IS_PAUSE = false;
     }
 
     void Update ()
     {
-        GAME_SPEED = gameSpeed;
+        if(!IS_PAUSE) GAME_SPEED = gameSpeed;
         FLOOR_LEVEL = floorLevel;
+        if (CrossPlatformInputManager.GetButtonDown("Pause")) TogglePause();
     }
 
     public static void LifeLost()
@@ -76,5 +81,22 @@ public class MainGameTracker : LevelManager
     private static void SetLivesText()
     {
         LIVES_COUNT_TEXT.text = "Lives: " + CURRENT_LIVES.ToString();
+    }
+
+    public static void TogglePause()
+    {
+        if(IS_PAUSE)
+        {
+            print("Resume");
+            IS_PAUSE = false;
+            GAME_SPEED = CURRENT_GAME_SPEED;
+        }
+        else
+        {
+            print("Pause");
+            IS_PAUSE = true;
+            CURRENT_GAME_SPEED = GAME_SPEED;
+            GAME_SPEED = 0f;
+        }
     }
 }
