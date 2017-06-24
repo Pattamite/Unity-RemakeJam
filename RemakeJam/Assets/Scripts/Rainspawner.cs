@@ -30,7 +30,7 @@ public class Rainspawner : MonoBehaviour
 
     void Update ()
     {
-        spawnDelay = MainGameTracker.CURRENT_LEVEL / 4.0f;
+        spawnDelay = (5f - MainGameTracker.CURRENT_LEVEL) / 4.0f;
         sigma = maxRangeFromCacti / 3;
         if (spawnDelay > 0f)
         {
@@ -56,8 +56,8 @@ public class Rainspawner : MonoBehaviour
                 if(isSelected)
                 {
                     GameObject newRaindrop = Instantiate(raindrop
-                        , new Vector3(Mathf.Clamp(cactiPosition + NormalDistributionRandom(), -spawnRange, spawnRange), verticalSpawnLocation, 0),
-                         Quaternion.identity) as GameObject;
+                                                         , new Vector3(Mathf.Clamp(cactiPosition + NormalDistributionRandom(), -spawnRange, spawnRange), verticalSpawnLocation, 0),
+                                                         Quaternion.identity) as GameObject;
                     newRaindrop.transform.SetParent(this.transform);
                     if (thunderDelay > 0f)
                     {

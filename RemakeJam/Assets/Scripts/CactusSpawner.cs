@@ -28,7 +28,7 @@ public class CactusSpawner : MonoBehaviour
     {
         if (spawnTime > 0f && Time.time - lastSpawnTime >= (spawnTime / MainGameTracker.GAME_SPEED))
         {
-            if (cacti.transform.childCount <= level)
+            if (cacti.transform.childCount <= MainGameTracker.CURRENT_LEVEL)
             {
                 // Spawn cactus
                 centerX = umbrella.transform.position.x * 1f;
