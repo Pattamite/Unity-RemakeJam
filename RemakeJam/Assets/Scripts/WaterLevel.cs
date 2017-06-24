@@ -23,10 +23,11 @@ public class WaterLevel : MonoBehaviour
     {
         wavePosition = Mathf.Sin(Time.time + randomOffsetPos) * multiplier;
         transform.position += Vector3.right * wavePosition * MainGameTracker.GAME_SPEED * Time.deltaTime;
-        if (transform.position.y < MainGameTracker.FLOOR_LEVEL - extraSpace && !isHTP)
+        if(!isHTP) transform.position = new Vector3(transform.position.x, MainGameTracker.FLOOR_LEVEL - extraSpace, transform.position.z);
+        /*if (transform.position.y < MainGameTracker.FLOOR_LEVEL - extraSpace && !isHTP)
         {
             transform.position += Vector3.up * MainGameTracker.GAME_SPEED * Time.deltaTime * MainGameTracker.RISING_SPEED;
-        }
+        }*/
         //transform.position += Vector3.up * MainGameTracker.GAME_SPEED * Time.deltaTime * Mathf.Cos(Time.time);
     }
 }

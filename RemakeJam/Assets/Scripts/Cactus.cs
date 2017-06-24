@@ -102,15 +102,15 @@ public class Cactus : MonoBehaviour
                 status = STATUS_NORMAL;
                 StopBlinking();
             }
-            if (transform.position.y < MainGameTracker.FLOOR_LEVEL)
+            /*if (transform.position.y < MainGameTracker.FLOOR_LEVEL)
             {
                 transform.position += Vector3.up * MainGameTracker.RISING_SPEED * Time.deltaTime * MainGameTracker.GAME_SPEED;
-            }
+            }*/
             if (isMovingHorizontal) transform.position += Vector3.right * currentSpeed * Time.deltaTime * MainGameTracker.GAME_SPEED * movementDirection;
         }
 
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, lowerHorizontalLimit, upperHorizontalcalLimit),
-            transform.position.y, transform.position.z);
+            MainGameTracker.FLOOR_LEVEL, transform.position.z);
 
         if (transform.position.x == lowerHorizontalLimit) movementDirection = 1f;
         if (transform.position.x == upperHorizontalcalLimit) movementDirection = -1f;
