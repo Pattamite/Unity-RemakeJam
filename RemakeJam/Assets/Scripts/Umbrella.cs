@@ -30,7 +30,6 @@ public class Umbrella : MonoBehaviour {
     void Update ()
     {
         Movement();
-        if (mobileControl) MobileMovement();
         lowerVerticalLimit = MainGameTracker.FLOOR_LEVEL + bottomMargin;
     }
 
@@ -62,7 +61,18 @@ public class Umbrella : MonoBehaviour {
         {
             currentHorizontalDirection += -1f;
             transform.localScale = Vector3.one;
+
         }
+
+        if (CrossPlatformInputManager.GetAxis("Horizontal") > 0)
+        {
+            transform.localScale = (Vector3.left * 2) + Vector3.one;
+        }
+        else if(CrossPlatformInputManager.GetAxis("Horizontal") < 0)
+        {
+            transform.localScale = Vector3.one;
+        }
+
         currentVerticalDirection = 0f;
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
             currentVerticalDirection += 1f;
@@ -78,6 +88,13 @@ public class Umbrella : MonoBehaviour {
         {
             transform.position += Vector3.right * speed * Time.deltaTime * currentHorizontalDirection * MainGameTracker.GAME_SPEED;
             transform.position += Vector3.up * speed * Time.deltaTime * currentVerticalDirection * MainGameTracker.GAME_SPEED;
+
+            if (mobileControl)
+            {
+                transform.position += new Vector3(CrossPlatformInputManager.GetAxis("Horizontal"), CrossPlatformInputManager.GetAxis("Vertical"), 0)
+                    * speed * Time.deltaTime * MainGameTracker.GAME_SPEED;
+            }
+
             transform.position = new Vector3(Mathf.Clamp(transform.position.x, lowerHorizontalLimit, upperHorizontalcalLimit),
                                              Mathf.Clamp(transform.position.y, lowerVerticalLimit, upperVericalLimit), transform.position.z);
         }
@@ -87,16 +104,4 @@ public class Umbrella : MonoBehaviour {
         }
     }
 
-    private void MobileMovement()
-    {
-        // TODO: Raise umbrella with floor level
-
-
-        transform.position += new Vector3(CrossPlatformInputManager.GetAxis("Horizontal"), CrossPlatformInputManager.GetAxis("Vertical"), 0)
-            * speed * Time.deltaTime * MainGameTracker.GAME_SPEED;
-
-
-        transform.position = new Vector3(Mathf.Clamp(transform.position.x, lowerHorizontalLimit, upperHorizontalcalLimit),
-            Mathf.Clamp(transform.position.y, lowerVerticalLimit, upperVericalLimit), transform.position.z);
-    }
 }

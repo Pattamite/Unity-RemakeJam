@@ -56,7 +56,6 @@ public class MainGameTracker : LevelManager
         if(!IS_PAUSE) GAME_SPEED = gameSpeed;
         FLOOR_LEVEL = floorLevel;
         if (CrossPlatformInputManager.GetButtonDown("Pause")) TogglePause();
-        GAME_SPEED = gameSpeed;
         if (FLOOR_LEVEL < MAX_FLOOR_LEVEL && Time.time - SAFE_TIME >= SAFE_COOLDOWN)
         {
             FLOOR_LEVEL = FLOOR_LEVEL + (RISING_SPEED * Time.deltaTime * GAME_SPEED);

@@ -109,7 +109,7 @@ public class Cactus : MonoBehaviour
         if (transform.position.x == lowerHorizontalLimit) movementDirection = 1f;
         if (transform.position.x == upperHorizontalcalLimit) movementDirection = -1f;
 
-        healthBar.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + healthBarYOffSet, this.transform.position.z);
+        healthBar.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + healthBarYOffSet, -2);
     }
 
     private void StatusChecking()
