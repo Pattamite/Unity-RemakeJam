@@ -58,6 +58,7 @@ public class MainGameTracker : LevelManager
         SAFE_TIME = Time.time;
         RISING_SPEED = risingSpeed;
         GAME_SPEED = gameSpeed;
+        CURRENT_GAME_SPEED = gameSpeed;
         if (isMainGame)
         {
             PAUSE_BUTTON = pauseButton;
@@ -68,8 +69,7 @@ public class MainGameTracker : LevelManager
 
     void Update ()
     {
-        if(!IS_PAUSE) GAME_SPEED = gameSpeed;
-        if (CrossPlatformInputManager.GetButtonDown("Pause")) TogglePause();
+        if (!IS_PAUSE) GAME_SPEED = CURRENT_GAME_SPEED;
         if (FLOOR_LEVEL < MAX_FLOOR_LEVEL && Time.time - SAFE_TIME >= SAFE_COOLDOWN && !IS_PAUSE)
         {
             FLOOR_LEVEL += (RISING_SPEED * Time.deltaTime * GAME_SPEED);
@@ -79,6 +79,7 @@ public class MainGameTracker : LevelManager
             }
         }
         NextLevel();
+        if (CrossPlatformInputManager.GetButtonDown("Pause")) TogglePause();
     }
 
     public static void NextLevel()
@@ -86,6 +87,8 @@ public class MainGameTracker : LevelManager
         if (CURRENT_SCORE >= Mathf.Pow(100 , CURRENT_LEVEL + 1))
         {
             CURRENT_LEVEL = CURRENT_LEVEL + 1;
+            GAME_SPEED = GAME_SPEED + 0.25f;
+            CURRENT_GAME_SPEED = GAMESPEED;
         }
     }
     public static void LifeLost()
