@@ -50,7 +50,7 @@ public class Umbrella : MonoBehaviour {
     {
         stunStatus = true;
         stunTime = Time.time;
-        if (SoundPrefsManager.IsSoundOn()) AudioSource.PlayClipAtPoint(hitSound, transform.position);
+        if (SoundPrefsManager.IsSoundOn()) AudioPlayer.PlaySound(hitSound);
     }
 
     private void Movement()
