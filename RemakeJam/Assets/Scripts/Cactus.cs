@@ -102,15 +102,15 @@ public class Cactus : MonoBehaviour
                 status = STATUS_NORMAL;
                 StopBlinking();
             }
-            /*if (transform.position.y < MainGameTracker.FLOOR_LEVEL)
+            if (transform.position.y < MainGameTracker.FLOOR_LEVEL)
             {
                 transform.position += Vector3.up * MainGameTracker.RISING_SPEED * Time.deltaTime * MainGameTracker.GAME_SPEED;
-            }*/
+            }
             if (isMovingHorizontal) transform.position += Vector3.right * currentSpeed * Time.deltaTime * MainGameTracker.GAME_SPEED * movementDirection;
         }
 
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, lowerHorizontalLimit, upperHorizontalcalLimit),
-            MainGameTracker.FLOOR_LEVEL, transform.position.z);
+            transform.position.y, transform.position.z);
 
         if (transform.position.x == lowerHorizontalLimit) movementDirection = 1f;
         if (transform.position.x == upperHorizontalcalLimit) movementDirection = -1f;
@@ -146,13 +146,13 @@ public class Cactus : MonoBehaviour
             status = STATUS_INVINCIBLE;
             lastHitTime = Time.time;
             SetHealthBarValue();
-            AudioSource.PlayClipAtPoint(hitSound, transform.position);
+            if(SoundPrefsManager.IsSoundOn()) AudioSource.PlayClipAtPoint(hitSound, transform.position);
         }
     }
 
     public void Heal()
     {
-        AudioSource.PlayClipAtPoint(healSound, transform.position);
+        if (SoundPrefsManager.IsSoundOn())  AudioSource.PlayClipAtPoint(healSound, transform.position);
         currentHealth = currentHealth + healAmount;
         if (currentHealth > maxHealth)
         {
@@ -163,7 +163,7 @@ public class Cactus : MonoBehaviour
 
     public void Kill()
     {
-        AudioSource.PlayClipAtPoint(deadSound, transform.position);
+        if (SoundPrefsManager.IsSoundOn())  AudioSource.PlayClipAtPoint(deadSound, transform.position);
         MainGameTracker.LifeLost();
         Destroy(healthBar);
         Destroy(this.gameObject);

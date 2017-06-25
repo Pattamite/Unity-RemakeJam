@@ -81,6 +81,7 @@ public class MainGameTracker : LevelManager
         }
         NextLevel();
         if (CrossPlatformInputManager.GetButtonDown("Pause")) TogglePause();
+        if (CrossPlatformInputManager.GetButtonDown("Menu")) LoadScene(ScenesNumber.MAIN_MENU);
     }
 
     public static void NextLevel()
@@ -89,7 +90,7 @@ public class MainGameTracker : LevelManager
         {
             CURRENT_LEVEL = CURRENT_LEVEL + 1;
             GAME_SPEED = GAME_SPEED + 0.25f;
-            CURRENT_GAME_SPEED = GAMESPEED;
+            CURRENT_GAME_SPEED = GAME_SPEED;
         }
     }
     public static void LifeLost()
@@ -136,7 +137,7 @@ public class MainGameTracker : LevelManager
             IS_PAUSE = false;
             GAME_SPEED = CURRENT_GAME_SPEED;
             PAUSE_BUTTON.sprite = PAUSE_SPRITE;
-            MusicPlayer.UnPause();
+            if(SoundPrefsManager.IsMusicOn()) MusicPlayer.GameResume();
         }
         else
         {
@@ -145,7 +146,7 @@ public class MainGameTracker : LevelManager
             CURRENT_GAME_SPEED = GAME_SPEED;
             GAME_SPEED = 0f;
             PAUSE_BUTTON.sprite = RESUME_SPRITE;
-            MusicPlayer.Pause();
+            if (SoundPrefsManager.IsMusicOn()) MusicPlayer.GamePause();
         }
     }
 }
