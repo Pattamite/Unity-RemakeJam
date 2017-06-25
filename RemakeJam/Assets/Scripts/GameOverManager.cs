@@ -24,9 +24,17 @@ public class GameOverManager : LevelManager {
         currentScoreText.text = currentScore.ToString();
         highScoreText.text = highScore.ToString();
     }
-	
-	
-	void Update () {
-		
-	}
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R)) LoadScene(ScenesNumber.MAIN_GAME);
+    }
+
+
+    public void ResetHighScore()
+    {
+        PlayerPrefs.SetInt(PlayerPrefsKeys.HIGH_SCORE, 0);
+        newHighScoreText.enabled = false;
+        highScoreText.text = "0";
+    }
 }

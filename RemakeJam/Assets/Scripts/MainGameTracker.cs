@@ -23,6 +23,7 @@ public class MainGameTracker : LevelManager
     public static int CURRENT_SCORE = 0;
     public static int CURRENT_LEVEL = 0;
     [Range(0.0f, 10.0f)] public float gameSpeed = 1.0f;
+    public bool forceGameSpeed = false;
     [Range(-7.0f, 8.0f)] public float floorLevel = -4.0f;
     public static float levelMax = 3;
     [Range(1, 20)] public int maxLives = 10;
@@ -42,6 +43,8 @@ public class MainGameTracker : LevelManager
     private static Image PAUSE_BUTTON;
     private static Sprite PAUSE_SPRITE;
     private static Sprite RESUME_SPRITE;
+
+    
 
     void Start ()
     {
@@ -70,7 +73,7 @@ public class MainGameTracker : LevelManager
 
     void Update ()
     {
-        if (!IS_PAUSE) GAME_SPEED = CURRENT_GAME_SPEED;
+        if (!IS_PAUSE && forceGameSpeed) GAME_SPEED = gameSpeed;
         if (FLOOR_LEVEL < MAX_FLOOR_LEVEL && Time.time - SAFE_TIME >= SAFE_COOLDOWN && !IS_PAUSE)
         {
             FLOOR_LEVEL += (RISING_SPEED * Time.deltaTime * GAME_SPEED);

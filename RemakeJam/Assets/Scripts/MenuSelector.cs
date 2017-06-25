@@ -33,11 +33,11 @@ public class MenuSelector : MonoBehaviour {
         isMouseUsed = false;
         for (int i = 0 ; i < button.Length ; i++)
         {
-            print(button[i] + " / " + button[i].gameObject.GetComponent<MouseDetector>().isMouseSelected);
+            //print(button[i] + " / " + button[i].gameObject.GetComponent<MouseDetector>().isMouseSelected);
             if (button[i].gameObject.GetComponent<MouseDetector>().isMouseSelected)
             {
                 isMouseUsed = true;
-                //break;
+                break;
             }
         }
     }
@@ -49,15 +49,7 @@ public class MenuSelector : MonoBehaviour {
 
     private void KeyboardSelect()
     {
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
-        {
-            if (currentSelect != -1)
-            {
-                ClearSelect();
-                button[currentSelect].onClick.Invoke();
-            }
-        }
-        else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+         if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
         {
             if (currentSelect == -1)
             {
