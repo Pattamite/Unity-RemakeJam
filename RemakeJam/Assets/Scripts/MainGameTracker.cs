@@ -83,8 +83,6 @@ public class MainGameTracker : LevelManager
             }
         }
         NextLevel();
-        if (CrossPlatformInputManager.GetButtonDown("Pause")) TogglePause();
-        if (CrossPlatformInputManager.GetButtonDown("Menu")) LoadScene(ScenesNumber.MAIN_MENU);
     }
 
     public static void NextLevel()
@@ -150,6 +148,27 @@ public class MainGameTracker : LevelManager
             GAME_SPEED = 0f;
             PAUSE_BUTTON.sprite = RESUME_SPRITE;
             if (SoundPrefsManager.IsMusicOn()) MusicPlayer.GamePause();
+        }
+    }
+
+    public  void TogglePause2()
+    {
+        if (IS_PAUSE)
+        {
+            //print("Resume");
+            IS_PAUSE = false;
+            GAME_SPEED = CURRENT_GAME_SPEED;
+            PAUSE_BUTTON.sprite = PAUSE_SPRITE;
+            MusicPlayer.GameResume();
+        }
+        else
+        {
+            //print("Pause");
+            IS_PAUSE = true;
+            CURRENT_GAME_SPEED = GAME_SPEED;
+            GAME_SPEED = 0f;
+            PAUSE_BUTTON.sprite = RESUME_SPRITE;
+            MusicPlayer.GamePause();
         }
     }
 }

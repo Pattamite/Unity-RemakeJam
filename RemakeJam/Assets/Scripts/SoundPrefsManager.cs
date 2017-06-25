@@ -20,11 +20,6 @@ public class SoundPrefsManager : MonoBehaviour
         SetSprite();
     }
 
-    void Update()
-    {
-        if (CrossPlatformInputManager.GetButtonDown("Music")) toggleMusic();
-        if (CrossPlatformInputManager.GetButtonDown("Sound")) toggleSound();
-    }
 
     private void KeysSetup()
     {
@@ -57,13 +52,13 @@ public class SoundPrefsManager : MonoBehaviour
         return PlayerPrefs.GetInt(PlayerPrefsKeys.IS_MUSIC_ON) == 1;
     }
 
-    private void toggleSound()
+    public void ToggleSound()
     {
         PlayerPrefs.SetInt(PlayerPrefsKeys.IS_SOUND_ON, (PlayerPrefs.GetInt(PlayerPrefsKeys.IS_SOUND_ON) + 1) % 2);
         SetSprite();
     }
 
-    private void toggleMusic()
+    public void ToggleMusic()
     {
         PlayerPrefs.SetInt(PlayerPrefsKeys.IS_MUSIC_ON, (PlayerPrefs.GetInt(PlayerPrefsKeys.IS_MUSIC_ON) + 1) % 2);
         SetSprite();

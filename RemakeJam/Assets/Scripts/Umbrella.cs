@@ -20,6 +20,14 @@ public class Umbrella : MonoBehaviour {
     private bool stunStatus = false;
     private float stunTime;
 
+    public Color normalColor;
+    public Color blinkColor;
+    private bool isBlink = false;
+    private float lastBlinkTime;
+    [Range(0.1f, 1f)]
+    public float blinkDelay = 0.2f;
+    public AudioClip hitSound;
+
     void Start ()
     {
         stunTime = 0f;
@@ -42,6 +50,7 @@ public class Umbrella : MonoBehaviour {
     {
         stunStatus = true;
         stunTime = Time.time;
+        if (SoundPrefsManager.IsSoundOn()) AudioSource.PlayClipAtPoint(hitSound, transform.position);
     }
 
     private void Movement()
@@ -101,7 +110,33 @@ public class Umbrella : MonoBehaviour {
         else if (Time.time - stunTime >= stunDuration)
         {
             stunStatus = false;
+            StopBlinking();
         }
+        else Blinking();
+    }
+
+    void Blinking()
+    {
+        if (Time.time - lastBlinkTime >= blinkDelay / MainGameTracker.GAME_SPEED)
+        {
+            lastBlinkTime = Time.time;
+            if (isBlink)
+            {
+                this.GetComponentInChildren<SpriteRenderer>().color = normalColor;
+                isBlink = false;
+            }
+            else
+            {
+                this.GetComponentInChildren<SpriteRenderer>().color = blinkColor;
+                isBlink = true;
+            }
+        }
+    }
+
+    void StopBlinking()
+    {
+        this.GetComponentInChildren<SpriteRenderer>().color = normalColor;
+        isBlink = false;
     }
 
 }
