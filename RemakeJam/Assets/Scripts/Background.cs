@@ -14,15 +14,17 @@ public class Background : MonoBehaviour
     public float maxXPosition = 22f;
     public float speed = 1f;
     private float direction;
+    private float scaling;
     // Use this for initialization
     void Start ()
     {
         direction = 1f;
+        scaling = (scaleMin - scaleMax) / MainGameTracker.levelMax;
     }
     // Update is called once per frame
     void Update ()
     {
-        if (currentScale > scaleMin - MainGameTracker.CURRENT_LEVEL && currentScale > scaleMax)
+        if (currentScale > scaleMin - (scaling * MainGameTracker.CURRENT_LEVEL) && currentScale > scaleMax)
         {
             currentScale = currentScale - growthRate * Time.deltaTime;
         }
